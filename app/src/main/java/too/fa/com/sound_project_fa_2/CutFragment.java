@@ -31,12 +31,13 @@ public class CutFragment extends Fragment implements View.OnClickListener{
     private void initViews() {
         btnSubmit = (Button) root.findViewById(R.id.btn_submitcut);
 
+
         edtStart = (TextView) root.findViewById(R.id.edt_start);
         edtEnd = (TextView) root.findViewById(R.id.edt_end);
         mainActivity.setmStartText(edtStart);
         mainActivity.setmEndText(edtEnd);
         btnSubmit.setOnClickListener(this);
-
+        allowSubmitCut(false);
     }
 
     @Override
@@ -47,5 +48,9 @@ public class CutFragment extends Fragment implements View.OnClickListener{
                 mainActivity.onSave();
                 break;
         }
+    }
+
+    public void allowSubmitCut(boolean allow){
+        btnSubmit.setEnabled(allow);
     }
 }

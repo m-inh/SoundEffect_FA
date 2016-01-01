@@ -630,6 +630,7 @@ public class MainActivity2 extends Activity
                         return;
                     }
                     mPlayer = new SamplePlayer(mSoundFile);
+                    if (cutFragment!=null) cutFragment.allowSubmitCut(true);    // Khi da load xong file thi cho phep submit
                 } catch (final Exception e) {
                     mProgressDialog.dismiss();
                     e.printStackTrace();

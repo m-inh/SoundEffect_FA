@@ -1451,4 +1451,18 @@ public class MainActivity2 extends Activity
 //    public void setCurrentSong(String currentSong) {
 //        this.currentSong = currentSong;
 //    }
+
+
+    private long preBackPressed = 0;
+    private final static int MIN_TIME_BACK_PRESSED = 2000; // 2000 miliseconds
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime-preBackPressed>MIN_TIME_BACK_PRESSED){
+            Toast.makeText(MainActivity2.this, "Tap again to exit", Toast.LENGTH_SHORT).show();
+            preBackPressed = currentTime;
+        }else {
+            super.onBackPressed();
+        }
+    }
 }

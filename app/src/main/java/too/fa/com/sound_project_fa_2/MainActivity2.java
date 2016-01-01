@@ -3,12 +3,15 @@ package too.fa.com.sound_project_fa_2;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -29,6 +32,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -504,8 +508,48 @@ public class MainActivity2 extends Activity
 
         tvTime = (TextView) findViewById(R.id.tv_timetimeline);
 
+        initSeekBarVolume();
+
         updateDisplay();
     }
+
+    //------------------------- Set Volume ----------------------------------------
+    private SeekBar sbrVolume;
+    private void initSeekBarVolume(){
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+        sbrVolume = (SeekBar) findViewById(R.id.sbrVolume);
+        sbrVolume.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        sbrVolume.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+
+        sbrVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN){
+            if (sbrVolume!=null) {
+                AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+                sbrVolume.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+    //-----------------------------------------------------------------------------
 
     public void loadFromFile(int indexSong){
         loadFromFile(listPath[indexSong]);

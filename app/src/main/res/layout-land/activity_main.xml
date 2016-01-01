@@ -131,9 +131,11 @@
                 android:src="@android:drawable/ic_lock_silent_mode_off" />
 
             <SeekBar
+                android:id="@+id/sbrVolume"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:indeterminate="false" />
         </TableRow>
 
     </TableRow>
